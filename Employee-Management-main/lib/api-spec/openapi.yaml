@@ -1,0 +1,272 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: Teceze Employee Management System API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: employees
+    description: Employee CRUD operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /employees:
+    get:
+      operationId: listEmployees
+      tags: [employees]
+      summary: List all employees
+      description: Returns all employee records
+      responses:
+        "200":
+          description: List of employees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Employee"
+
+    post:
+      operationId: createEmployee
+      tags: [employees]
+      summary: Create a new employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeInput"
+      responses:
+        "201":
+          description: Created employee
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+  /employees/stats:
+    get:
+      operationId: getEmployeeStats
+      tags: [employees]
+      summary: Get employee statistics
+      description: Returns aggregate stats for the dashboard
+      responses:
+        "200":
+          description: Employee stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeStats"
+
+  /employees/{id}:
+    get:
+      operationId: getEmployee
+      tags: [employees]
+      summary: Get an employee by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Employee record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+    put:
+      operationId: updateEmployee
+      tags: [employees]
+      summary: Update an employee
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeUpdate"
+      responses:
+        "200":
+          description: Updated employee
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employee"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+    delete:
+      operationId: deleteEmployee
+      tags: [employees]
+      summary: Delete an employee
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Deletion confirmed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteResult"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    Employee:
+      type: object
+      required:
+        - id
+        - employeeNo
+        - name
+        - designation
+        - salary
+        - createdAt
+      properties:
+        id:
+          type: string
+        employeeNo:
+          type: string
+        name:
+          type: string
+        designation:
+          type: string
+        salary:
+          type: number
+        createdAt:
+          type: string
+
+    EmployeeInput:
+      type: object
+      required:
+        - name
+        - designation
+        - salary
+      properties:
+        employeeNo:
+          type: string
+        name:
+          type: string
+          minLength: 1
+        designation:
+          type: string
+          minLength: 1
+        salary:
+          type: number
+          minimum: 0
+
+    EmployeeUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        designation:
+          type: string
+          minLength: 1
+        salary:
+          type: number
+          minimum: 0
+
+    EmployeeStats:
+      type: object
+      required:
+        - totalEmployees
+        - totalSalary
+        - avgSalary
+        - topDesignations
+      properties:
+        totalEmployees:
+          type: integer
+        totalSalary:
+          type: number
+        avgSalary:
+          type: number
+        topDesignations:
+          type: array
+          items:
+            $ref: "#/components/schemas/DesignationCount"
+
+    DesignationCount:
+      type: object
+      required:
+        - designation
+        - count
+      properties:
+        designation:
+          type: string
+        count:
+          type: integer
+
+    DeleteResult:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+
+    ApiError:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string

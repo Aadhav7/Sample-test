@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# pnpm local store (NEVER commit this - it's the package cache, huge binary files)
+.local/
+.cache/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Environment files - SENSITIVE, never commit
+.env
+.env.local
+.env.production
+.env.staging
+atlas-credentials.env
+
+# Logs
+*.log
+pino-*.log
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Replit (no longer needed)
+.replit
+.replitignore
+.replit-artifact/
+
+# TypeScript build info
+*.tsbuildinfo

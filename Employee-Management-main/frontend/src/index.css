@@ -1,0 +1,269 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: 'Consolas', 'Menlo', monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  /* ── Neumorphic soft blue-gray palette ── */
+  --background: 214 28% 90%;   /* #dde3ee */
+  --foreground: 222 45% 12%;   /* near-black text */
+
+  --border: 214 24% 82%;
+  --input: 214 24% 82%;
+  --ring: 221 83% 53%;
+
+  --card: 214 28% 90%;
+  --card-foreground: 222 45% 12%;
+  --card-border: 214 24% 82%;
+
+  --popover: 214 28% 90%;
+  --popover-foreground: 222 45% 12%;
+  --popover-border: 214 24% 82%;
+
+  --primary: 221 83% 53%;
+  --primary-foreground: 210 40% 98%;
+
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222 47% 11%;
+
+  --muted: 214 24% 82%;
+  --muted-foreground: 215 18% 40%;   /* ← darker so labels are readable */
+
+  --accent: 214 24% 84%;
+  --accent-foreground: 222 47% 11%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+
+  --radius: 0.75rem;
+
+  /* ── Neumorphic shadows ── */
+  --neu-shadow:    8px 8px 16px rgba(163,177,198,0.65), -8px -8px 16px rgba(255,255,255,0.6);
+  --neu-shadow-sm: 4px 4px 10px rgba(163,177,198,0.6),  -4px -4px 10px rgba(255,255,255,0.55);
+  --neu-inset:     inset 5px 5px 10px rgba(163,177,198,0.65), inset -5px -5px 10px rgba(255,255,255,0.75);
+  --neu-inset-sm:  inset 3px 3px 6px  rgba(163,177,198,0.6),  inset -3px -3px 6px  rgba(255,255,255,0.7);
+}
+
+.dark {
+  --background: 222 47% 11%;
+  --foreground: 210 40% 96%;
+  --card: 222 47% 11%;
+  --card-foreground: 210 40% 96%;
+  --popover: 222 47% 11%;
+  --popover-foreground: 210 40% 96%;
+  --primary: 217 91% 60%;
+  --primary-foreground: 222 47% 11%;
+  --secondary: 217 32% 17%;
+  --secondary-foreground: 210 40% 96%;
+  --muted: 217 32% 17%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 217 32% 17%;
+  --accent-foreground: 210 40% 96%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217 32% 17%;
+  --input: 217 32% 20%;
+  --ring: 213 27% 84%;
+
+  --neu-shadow:    8px 8px 16px rgba(0,0,0,0.55), -8px -8px 16px rgba(45,55,72,0.5);
+  --neu-shadow-sm: 4px 4px 10px rgba(0,0,0,0.5),  -4px -4px 10px rgba(45,55,72,0.45);
+  --neu-inset:     inset 5px 5px 10px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(45,55,72,0.7);
+  --neu-inset-sm:  inset 3px 3px 6px  rgba(0,0,0,0.55), inset -3px -3px 6px  rgba(45,55,72,0.65);
+}
+
+/* ─────────────────────────────────────────
+   BASE
+───────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border box-border;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 0.9375rem;       /* 15px — slightly larger than default */
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    @apply bg-background text-foreground min-h-[100dvh];
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: hsl(var(--foreground));
+  }
+}
+
+/* ─────────────────────────────────────────
+   NEUMORPHIC UTILITY CLASSES
+───────────────────────────────────────── */
+@layer utilities {
+
+  /* Cards / panels */
+  .neu-extruded {
+    box-shadow: var(--neu-shadow);
+    background-color: hsl(var(--background));
+    border-radius: var(--radius);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+  }
+
+  .neu-extruded-sm {
+    box-shadow: var(--neu-shadow-sm);
+    background-color: hsl(var(--background));
+    border-radius: var(--radius);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  /* Inset / recessed areas */
+  .neu-pressed {
+    box-shadow: var(--neu-inset);
+    background-color: hsl(var(--background));
+    border-radius: var(--radius);
+  }
+
+  .neu-pressed-sm {
+    box-shadow: var(--neu-inset-sm);
+    background-color: hsl(var(--background));
+    border-radius: var(--radius);
+  }
+
+  /* Generic button */
+  .neu-button {
+    box-shadow: var(--neu-shadow-sm);
+    transition: all 0.15s ease-in-out;
+    background-color: hsl(var(--background));
+    border-radius: var(--radius);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+  }
+
+  .neu-button:hover {
+    box-shadow: 6px 6px 12px rgba(163,177,198,0.7), -6px -6px 12px rgba(255,255,255,0.65);
+  }
+
+  .neu-button:active {
+    box-shadow: var(--neu-inset-sm);
+    transform: scale(0.97);
+  }
+
+  /* Primary CTA button */
+  .neu-button-primary {
+    background: linear-gradient(135deg, hsl(221 83% 56%), hsl(221 83% 47%));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 4px 4px 10px rgba(59,130,246,0.35), -2px -2px 8px rgba(255,255,255,0.3);
+    border: none;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+  }
+
+  .neu-button-primary:hover {
+    background: linear-gradient(135deg, hsl(221 83% 60%), hsl(221 83% 50%));
+    box-shadow: 5px 5px 14px rgba(59,130,246,0.45), -2px -2px 8px rgba(255,255,255,0.3);
+    transform: translateY(-1px);
+  }
+
+  .neu-button-primary:active {
+    box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2), inset -2px -2px 6px rgba(255,255,255,0.15);
+    transform: scale(0.97) translateY(0);
+  }
+
+  /* ── INPUT FIELDS — fixed invisible text issue ── */
+  .neu-input {
+    /* Slightly lighter inset so typed text is clearly visible */
+    box-shadow: var(--neu-inset-sm);
+    background-color: hsl(214 30% 87%);     /* slightly darker recess */
+    border-radius: calc(var(--radius) - 2px);
+    border: 1.5px solid rgba(163,177,198,0.4);
+    outline: none;
+    padding: 0.5rem 0.875rem;
+    transition: all 0.15s ease-in-out;
+
+    /* ── CRITICAL: explicit text color so typed text is always visible ── */
+    color: hsl(222 45% 10%);
+    font-size: 0.875rem;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .neu-input::placeholder {
+    color: hsl(215 16% 55%);
+    font-weight: 400;
+  }
+
+  .neu-input:focus {
+    box-shadow: var(--neu-inset), 0 0 0 2px hsl(var(--ring) / 0.25);
+    border-color: hsl(var(--ring) / 0.5);
+    background-color: hsl(214 28% 85%);
+  }
+
+  .neu-input:hover:not(:focus) {
+    border-color: rgba(163,177,198,0.7);
+  }
+
+  /* select element inherits neu-input but needs appearance reset */
+  select.neu-input {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2.25rem;
+    cursor: pointer;
+    color: hsl(222 45% 10%);
+  }
+
+  select.neu-input option {
+    background-color: hsl(214 28% 92%);
+    color: hsl(222 45% 10%);
+    font-size: 0.875rem;
+  }
+}
